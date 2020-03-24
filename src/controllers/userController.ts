@@ -13,19 +13,19 @@ export default {
     const { email, username, password }: userType = req.body;
 
     if (!email || !username || !password) {
-      return res.send({ message: "Informações insuficientes" }).status(406);
+      return res.status(406).send({ message: "Informações insuficientes" });
     }
 
     Users.findOne({ email }, (error, data) => {
       if (error)
-        return res.send({ message: "Erro ao buscar usuário" }).status(500);
-      if (data) return res.send({ message: "Usuário já existe" }).status(406);
+        return res.status(500).send({ message: "Erro ao buscar usuário" });
+      if (data) return res.status(406).send({ message: "Usuário já existe" });
 
       Users.create({ email, username, password }, (error: any, data: any) => {
         if (error)
           return res
-            .send({ message: "Erro ao criar usuário: " + error })
-            .status(500);
+            .status(500)
+            .send({ message: "Erro ao criar usuário: " + error });
         return res.send(data);
       });
     });
